@@ -1,0 +1,18 @@
+<div class="post-card">
+    <h2>{{ post.title }}</h2>
+
+    <p class="meta">
+        <span>By {{ post.authorName || 'Unknown author' }}</span>
+        @if (post.createdAt) {
+        <span> • {{ post.createdAt | date:'medium' }}</span>
+        }
+    </p>
+
+    <p class="preview">{{ post.content | previewContent}}</p>
+
+    <div class="actions">
+        <a [routerLink]="['/posts', post.id]" class="btn btn-primary">Read More</a>
+        <a [routerLink]="['/posts/edit', post.id]" class="btn btn-secondary">Edit</a>
+        <button class="btn btn-danger" (click)="onDelete()">Delete</button>
+    </div>
+</div>

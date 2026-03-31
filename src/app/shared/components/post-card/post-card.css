@@ -1,0 +1,54 @@
+.post-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.post-card h2 {
+  margin-bottom: 10px;
+  color: #222;
+}
+
+.meta {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+.preview {
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 10px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-primary {
+  background: #1976d2;
+  color: white;
+}
+
+.btn-secondary {
+  background: #757575;
+  color: white;
+}
+
+.btn-danger {
+  background: #d32f2f;
+  color: white;
+}
