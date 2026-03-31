@@ -1,0 +1,38 @@
+@if (!loading){
+<div class="page-container">
+    <div class="post-box">
+        <h1>{{ post()?.title }}</h1>
+
+        <p class="meta">
+            By {{ post()?.authorName || 'Unknown author' }}
+            @if (post()?.createdAt) {
+            <span> • {{ post()?.createdAt | date:'medium' }}</span>
+            }
+        </p>
+
+        <div class="content">
+            {{ post()?.content }}
+        </div>
+
+        <div class="actions">
+            <a [routerLink]="['/posts/edit', post()?.id]" class="btn btn-secondary">Edit</a>
+            <button class="btn btn-danger" (click)="onDelete()">Delete</button>
+            <a routerLink="/posts" class="btn btn-light">Back</a>
+        </div>
+    </div>
+
+    <div class="comments-placeholder">
+        <h2>Comments</h2>
+        <p>Comments section will be added in Phase 3.</p>
+    </div>
+</div>
+} @else {
+<div class="page-container">
+    @if(loading){
+    <div class="info">Loading post...</div>
+    }
+    @if(error){
+    <div class="error">{{ error }}</div>
+    }
+</div>
+}
