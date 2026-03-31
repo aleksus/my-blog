@@ -1,0 +1,31 @@
+<div class="page-container">
+    <div class="page-header">
+        <h1>Blog Posts</h1>
+        <a routerLink="/posts/new" class="btn btn-primary">+ New Post</a>
+    </div>
+
+    <div class="filters">
+        <input type="text" placeholder="Search by title..." [(ngModel)]="searchTerm" (input)="applyFilters()" />
+
+        <select [(ngModel)]="selectedUserId" (change)="applyFilters()">
+            <option value="">All Authors</option>
+            <option *ngFor="let user of users" [value]="user.id">
+                {{ user.name }}
+            </option>
+        </select>
+    </div>
+
+    @if (loading){
+    <div class="info">Loading posts...</div>
+    }
+    @if (error) {
+    <div class="error">{{ error }}</div>
+    }
+    @if (!loading && filteredPosts.length === 0){
+    <div class="info">
+        No posts found.
+    </div>
+    }
+    <app-post-card *ngFor="let post of filteredPosts" [post]="post" (deletePost)="onDelete($event)">
+    </app-post-card>
+</div>
