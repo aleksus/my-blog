@@ -1,0 +1,73 @@
+<div class="page-container">
+  <div class="form-box">
+    <h1>{{ isEditMode ? 'Edit Post' : 'Create New Post' }}</h1>
+
+    @if (loading) {
+      <div class="info">Loading post...</div>
+    } @else {
+      <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+
+        @if (errorMessage) {
+          <div class="error-box">
+            {{ errorMessage }}
+          </div>
+        }
+
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input id="title" type="text" formControlName="title" />
+
+          @if ((submitted || f.title.touched) && f.title.errors?.['required']) {
+            <small class="error">Title is required.</small>
+          }
+
+          @if ((submitted || f.title.touched) && f.title.errors?.['minlength']) {
+            <small class="error">Title must be at least 3 characters.</small>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="content">Content</label>
+          <textarea id="content" rows="8" formControlName="content"></textarea>
+
+          @if ((submitted || f.content.touched) && f.content.errors?.['required']) {
+            <small class="error">Content is required.</small>
+          }
+
+          @if ((submitted || f.content.touched) && f.content.errors?.['minlength']) {
+            <small class="error">Content must be at least 10 characters.</small>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="userId">Author</label>
+          <select id="userId" formControlName="userId">
+            <option [value]="0">Select author</option>
+
+            @for (user of users; track user.id) {
+              <option [value]="user.id">
+                {{ user.name }}
+              </option>
+            }
+          </select>
+
+          @if ((submitted || f.userId.touched) && f.userId.errors?.['required']) {
+            <small class="error">Author is required.</small>
+          }
+
+          @if ((submitted || f.userId.touched) && f.userId.errors?.['min']) {
+            <small class="error">Please select a valid author.</small>
+          }
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">
+            {{ isEditMode ? 'Update Post' : 'Create Post' }}
+          </button>
+
+          <a routerLink="/posts" class="btn btn-light">Cancel</a>
+        </div>
+      </form>
+    }
+  </div>
+</div>
