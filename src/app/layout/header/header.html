@@ -1,0 +1,20 @@
+<header class="site-header">
+  <div class="header-container">
+    <a routerLink="/" class="logo">MyBlog</a>
+
+    <nav class="nav">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">
+        Home
+      </a>
+      <a routerLink="/posts" routerLinkActive="active">
+        Posts
+      </a>
+      <a routerLink="/posts/new" routerLinkActive="active">
+        Create Post
+      </a>
+      <a routerLink="/users" routerLinkActive="active">
+        Authors
+      </a>
+    </nav>
+  </div>
+</header>
