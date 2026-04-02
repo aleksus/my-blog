@@ -21,11 +21,13 @@
     @if (error) {
     <div class="error">{{ error }}</div>
     }
-    @if (!loading && filteredPosts.length === 0){
+    @if (!loading && filteredPosts().length === 0){
     <div class="info">
         No posts found.
     </div>
     }
-    <app-post-card *ngFor="let post of filteredPosts" [post]="post" (deletePost)="onDelete($event)">
+    @for(post of filteredPosts(); track post.id ){
+    <app-post-card [post]="post" (deletePost)="onDelete($event)">
     </app-post-card>
+    }
 </div>
