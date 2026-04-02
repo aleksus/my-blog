@@ -1,0 +1,23 @@
+.hero {
+  text-align: center;
+  padding: 60px 30px;
+}
+
+.hero h1 {
+  font-size: 40px;
+  margin-bottom: 16px;
+  color: #222;
+}
+
+.subtitle {
+  font-size: 18px;
+  color: #666;
+  margin-bottom: 28px;
+}
+
+.hero-actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
