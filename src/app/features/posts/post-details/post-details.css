@@ -1,74 +1,25 @@
-.page-container {
-  max-width: 900px;
-  margin: 40px auto;
-  padding: 0 20px;
-}
-
-.post-box,
-.comments-placeholder {
-  background: white;
-  border-radius: 12px;
-  padding: 28px;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-  margin-bottom: 25px;
-}
-
-.post-box h1 {
-  margin-bottom: 10px;
+.post-details h1 {
+  margin-bottom: 12px;
 }
 
 .meta {
-  color: #666;
-  font-size: 14px;
-  margin-bottom: 25px;
+  margin-bottom: 24px;
 }
 
 .content {
-  line-height: 1.8;
-  font-size: 16px;
-  color: #333;
   white-space: pre-line;
+  color: #333;
+  line-height: 1.8;
+  margin-bottom: 28px;
 }
 
 .actions {
-  margin-top: 30px;
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
 }
 
-.info {
-  padding: 20px;
-  background: #f5f5f5;
-  border-radius: 8px;
-}
-
-.error {
-  padding: 20px;
+.error-box {
+  color: #b71c1c;
   background: #ffebee;
-  color: #c62828;
-  border-radius: 8px;
-}
-
-.btn {
-  padding: 10px 16px;
-  border-radius: 8px;
-  border: none;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-.btn-secondary {
-  background: #757575;
-  color: white;
-}
-
-.btn-danger {
-  background: #d32f2f;
-  color: white;
-}
-
-.btn-light {
-  background: #eeeeee;
-  color: #333;
 }

@@ -1,15 +1,15 @@
 <div class="page-container">
   <div class="form-box">
-    <h1>{{ isEditMode ? 'Edit Post' : 'Create New Post' }}</h1>
+    <h1>{{ isEditMode() ? 'Edit Post' : 'Create Post' }}</h1>
 
-    @if (loading) {
+    @if (loading()) {
       <div class="info">Loading post...</div>
     } @else {
       <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
 
-        @if (errorMessage) {
+        @if (errorMessage()) {
           <div class="error-box">
-            {{ errorMessage }}
+            {{ errorMessage() }}
           </div>
         }
 
@@ -17,55 +17,64 @@
           <label for="title">Title</label>
           <input id="title" type="text" formControlName="title" />
 
-          @if ((submitted || f.title.touched) && f.title.errors?.['required']) {
+          @if ((submitted() || f.title.touched) && f.title.errors?.['required']) {
             <small class="error">Title is required.</small>
           }
 
-          @if ((submitted || f.title.touched) && f.title.errors?.['minlength']) {
+          @if ((submitted() || f.title.touched) && f.title.errors?.['minlength']) {
             <small class="error">Title must be at least 3 characters.</small>
+          }
+
+          @if ((submitted() || f.title.touched) && f.title.errors?.['maxlength']) {
+            <small class="error">Title must be at most 150 characters.</small>
           }
         </div>
 
         <div class="form-group">
           <label for="content">Content</label>
-          <textarea id="content" rows="8" formControlName="content"></textarea>
+          <textarea id="content" rows="10" formControlName="content"></textarea>
 
-          @if ((submitted || f.content.touched) && f.content.errors?.['required']) {
+          @if ((submitted() || f.content.touched) && f.content.errors?.['required']) {
             <small class="error">Content is required.</small>
           }
 
-          @if ((submitted || f.content.touched) && f.content.errors?.['minlength']) {
+          @if ((submitted() || f.content.touched) && f.content.errors?.['minlength']) {
             <small class="error">Content must be at least 10 characters.</small>
           }
         </div>
 
         <div class="form-group">
           <label for="userId">Author</label>
-          <select id="userId" formControlName="userId">
-            <option [value]="0">Select author</option>
 
-            @for (user of users; track user.id) {
-              <option [value]="user.id">
-                {{ user.name }}
+          <select id="userId" formControlName="userId">
+            <option [ngValue]="0" disabled>Select an author</option>
+
+            @for (user of users(); track user.id) {
+              <option [ngValue]="user.id">
+                {{ user.name }} ({{ user.email }})
               </option>
             }
           </select>
 
-          @if ((submitted || f.userId.touched) && f.userId.errors?.['required']) {
+          @if (loadingUsers()) {
+            <small class="info-text">Loading authors...</small>
+          }
+
+          @if ((submitted() || f.userId.touched) && f.userId.errors?.['required']) {
             <small class="error">Author is required.</small>
           }
 
-          @if ((submitted || f.userId.touched) && f.userId.errors?.['min']) {
-            <small class="error">Please select a valid author.</small>
+          @if ((submitted() || f.userId.touched) && f.userId.errors?.['min']) {
+            <small class="error">Please select an author.</small>
           }
         </div>
 
         <div class="form-actions">
           <button type="submit" class="btn btn-primary">
-            {{ isEditMode ? 'Update Post' : 'Create Post' }}
+            {{ isEditMode() ? 'Update Post' : 'Create Post' }}
           </button>
 
-          <a routerLink="/posts" class="btn btn-light">Cancel</a>
+          <a routerLink="/posts" class="btn btn-secondary">Cancel</a>
         </div>
       </form>
     }

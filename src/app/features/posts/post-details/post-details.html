@@ -1,38 +1,27 @@
-@if (!loading){
 <div class="page-container">
-    <div class="post-box">
-        <h1>{{ post()?.title }}</h1>
+  @if (loading()) {
+    <div class="card">Loading post...</div>
+  } @else if (errorMessage()) {
+    <div class="card error-box">{{ errorMessage() }}</div>
+  } @else if (post()) {
+    <div class="card post-details">
+      <h1>{{ post()!.title }}</h1>
 
-        <p class="meta">
-            By {{ post()?.authorName || 'Unknown author' }}
-            @if (post()?.createdAt) {
-            <span> • {{ post()?.createdAt | date:'medium' }}</span>
-            }
-        </p>
+      <p class="meta text-muted">
+        By {{ post()!.authorName || ('User #' + post()!.userId) }}
+      </p>
 
-        <div class="content">
-            {{ post()?.content }}
-        </div>
+      <div class="content">
+        {{ post()!.content }}
+      </div>
 
-        <div class="actions">
-            <a [routerLink]="['/posts/edit', post()?.id]" class="btn btn-secondary">Edit</a>
-            <button class="btn btn-danger" (click)="onDelete()">Delete</button>
-            <a routerLink="/posts" class="btn btn-light">Back</a>
-        </div>
+      <div class="actions">
+        <a routerLink="/posts" class="btn btn-secondary">Back</a>
+        <a [routerLink]="['/posts/edit', post()!.id]" class="btn btn-primary">Edit</a>
+        <button class="btn btn-danger" (click)="onDelete()">Delete</button>
+      </div>      
     </div>
 
-    <div class="comments-placeholder">
-        <h2>Comments</h2>
-        <p>Comments section will be added in Phase 3.</p>
-    </div>
+    <app-comment-section [postId]="post()!.id!"></app-comment-section>
+  }
 </div>
-} @else {
-<div class="page-container">
-    @if(loading){
-    <div class="info">Loading post...</div>
-    }
-    @if(error){
-    <div class="error">{{ error }}</div>
-    }
-</div>
-}
