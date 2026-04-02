@@ -1,0 +1,17 @@
+.site-footer {
+  margin-top: 60px;
+  background: white;
+  border-top: 1px solid #e5e7eb;
+}
+
+.footer-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.footer-container p {
+  font-size: 14px;
+  color: #666;
+}
