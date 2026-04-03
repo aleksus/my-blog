@@ -10,40 +10,23 @@
     <form [formGroup]="commentForm" (ngSubmit)="onSubmit()">
 
       @if (errorMessage()) {
-        <div class="error-box">{{ errorMessage() }}</div>
+      <div class="error-box">{{ errorMessage() }}</div>
       }
-
-      <div class="form-group">
-        <label for="userId">Author</label>
-        <select id="userId" formControlName="userId">
-          <option [ngValue]="0" disabled>Select an author</option>
-
-          @for (user of users(); track user.id) {
-            <option [ngValue]="user.id">
-              {{ user.name }} ({{ user.email }})
-            </option>
-          }
-        </select>
-
-        @if ((submitted() || f.userId.touched) && f.userId.errors?.['min']) {
-          <small class="error">Please select an author.</small>
-        }
-      </div>
 
       <div class="form-group">
         <label for="content">Comment</label>
         <textarea id="content" rows="4" formControlName="content"></textarea>
 
         @if ((submitted() || f.content.touched) && f.content.errors?.['required']) {
-          <small class="error">Comment is required.</small>
+        <small class="error">Comment is required.</small>
         }
 
         @if ((submitted() || f.content.touched) && f.content.errors?.['minlength']) {
-          <small class="error">Comment must be at least 2 characters.</small>
+        <small class="error">Comment must be at least 2 characters.</small>
         }
 
         @if ((submitted() || f.content.touched) && f.content.errors?.['maxlength']) {
-          <small class="error">Comment must be at most 500 characters.</small>
+        <small class="error">Comment must be at most 500 characters.</small>
         }
       </div>
 
@@ -55,28 +38,28 @@
 
   <div class="comment-list">
     @if (loading()) {
-      <div class="card">Loading comments...</div>
+    <div class="card">Loading comments...</div>
     } @else if (comments().length === 0) {
-      <div class="card">No comments yet. Be the first to comment.</div>
+    <div class="card">No comments yet. Be the first to comment.</div>
     } @else {
-      @for (comment of comments(); track comment.id) {
-        <div class="comment-card">
-          <div class="comment-top">
-            <div>
-              <strong>{{ comment.authorName || ('User #' + comment.userId) }}</strong>
-              @if (comment.createdAt) {
-                <p class="date">{{ comment.createdAt | date:'medium' }}</p>
-              }
-            </div>
-
-            <button class="btn btn-danger btn-small" (click)="onDelete(comment.id!)">
-              Delete
-            </button>
-          </div>
-
-          <p class="comment-content">{{ comment.content }}</p>
+    @for (comment of comments(); track comment.id) {
+    <div class="comment-card">
+      <div class="comment-top">
+        <div>
+          <strong>{{ comment.authorName || ('User #' + comment.userId) }}</strong>
+          @if (comment.createdAt) {
+          <p class="date">{{ comment.createdAt | date:'medium' }}</p>
+          }
         </div>
-      }
+
+        <button class="btn btn-danger btn-small" (click)="onDelete(comment.id!)">
+          Delete
+        </button>
+      </div>
+
+      <p class="comment-content">{{ comment.content }}</p>
+    </div>
+    }
     }
   </div>
 </section>

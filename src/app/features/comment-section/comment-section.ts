@@ -1,11 +1,10 @@
-import { Component, Input, OnChanges, SimpleChanges, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, Input, OnChanges, SimpleChanges, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { Comment } from '../../core/models/comment.model';
-import { User } from '../..//core/models/user.model';
 import { CommentService } from '../..//core/services/comment.service';
-import { UserService } from '../..//core/services/user.service';
+import { Comment } from '../../core/models/comment.model';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-comment-section',
@@ -18,25 +17,21 @@ export class CommentSectionComponent implements OnChanges {
   @Input({ required: true }) postId!: number;
 
   private commentService = inject(CommentService);
-  private userService = inject(UserService);
   private fb = inject(FormBuilder);
+  private authService = inject(AuthService);
 
   comments = signal<Comment[]>([]);
-  users = signal<User[]>([]);
   loading = signal(false);
-  loadingUsers = signal(false);
   submitting = signal(false);
   submitted = signal(false);
   errorMessage = signal('');
 
   commentForm = this.fb.nonNullable.group({
     content: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(500)]],
-    userId: [0, [Validators.required, Validators.min(1)]]
   });
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['postId']?.currentValue) {
-      this.loadUsers();
       this.loadComments();
     }
   }
@@ -59,20 +54,6 @@ export class CommentSectionComponent implements OnChanges {
     });
   }
 
-  loadUsers(): void {
-    this.loadingUsers.set(true);
-
-    this.userService.getAll().subscribe({
-      next: (data) => {
-        this.users.set(data);
-        this.loadingUsers.set(false);
-      },
-      error: () => {
-        this.loadingUsers.set(false);
-      }
-    });
-  }
-
   onSubmit(): void {
     this.submitted.set(true);
     this.errorMessage.set('');
@@ -82,11 +63,14 @@ export class CommentSectionComponent implements OnChanges {
       return;
     }
 
-    this.submitting.set(true);
+    this.submitting.set(true);    
+
+    const { content } = this.commentForm.getRawValue();
 
     const payload = {
-      ...this.commentForm.getRawValue(),
-      postId: this.postId
+      postId: this.postId,
+      content,
+      userId: this.authService.currentUser()!.id
     };
 
     this.commentService.create(payload).subscribe({
@@ -94,7 +78,6 @@ export class CommentSectionComponent implements OnChanges {
         this.comments.update(current => [createdComment, ...current]);
         this.commentForm.reset({
           content: '',
-          userId: 0
         });
         this.submitted.set(false);
         this.submitting.set(false);
