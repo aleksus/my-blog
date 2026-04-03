@@ -25,13 +25,16 @@
 .nav {
   display: flex;
   gap: 20px;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  align-items: center;
 }
 
 .nav a {
   color: #444;
   font-weight: 500;
   transition: color 0.2s ease;
+  display: flex;
+  align-items: center;
 }
 
 .nav a:hover,
