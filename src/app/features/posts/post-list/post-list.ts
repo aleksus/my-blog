@@ -1,8 +1,9 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Post } from '../../../core/models/post.model';
 import { PostService } from '../../../core/services/post.service';
 import { PreviewContentPipe } from '../../../shared/pipes/preview-pipe-pipe';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-post-list',
@@ -13,6 +14,7 @@ import { PreviewContentPipe } from '../../../shared/pipes/preview-pipe-pipe';
 })
 export class PostListComponent implements OnInit {
   private postService = inject(PostService);
+  authService = inject(AuthService);
 
   posts = signal<Post[]>([]);
   loading = signal(false);
