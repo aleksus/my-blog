@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { User } from '../models/user.model';
+import { User, UserAuth, UserRegister } from '../models/user.model';
 import { API_ENDPOINTS } from '../constants/api.constants';
 
 @Injectable({
@@ -18,7 +18,11 @@ export class UserService {
     return this.http.get<User>(`${API_ENDPOINTS.users}/${id}`);
   }
 
-  create(user: User): Observable<User> {
+  authenticate(user: UserAuth): Observable<User> {
+    return this.http.post<User>(`${API_ENDPOINTS.users}`, user);
+  }
+
+  create(user: UserRegister): Observable<User> {
     return this.http.post<User>(API_ENDPOINTS.users, user);
   }
 
