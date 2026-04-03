@@ -4,14 +4,20 @@ export interface User {
   email: string;
 }
 
-export interface UserRegister {
-  id?: number;
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface RegisterRequest {
   name: string;
   email: string;
   password: string;
 }
 
-export interface UserAuth {
+export interface AuthResponse {
+  id: number;
+  name: string;
   email: string;
-  password: string;
+  token?: string;
 }

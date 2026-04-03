@@ -1,0 +1,48 @@
+<div class="auth-page">
+  <div class="auth-card">
+    <h1>Login</h1>
+    <p class="subtitle">Welcome back. Sign in to continue.</p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+      @if (errorMessage()) {
+        <div class="error-box">{{ errorMessage() }}</div>
+      }
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email" type="email" formControlName="email" />
+
+        @if ((submitted() || f.email.touched) && f.email.errors?.['required']) {
+          <small class="error">Email is required.</small>
+        }
+
+        @if ((submitted() || f.email.touched) && f.email.errors?.['email']) {
+          <small class="error">Enter a valid email.</small>
+        }
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input id="password" type="password" formControlName="password" />
+
+        @if ((submitted() || f.password.touched) && f.password.errors?.['required']) {
+          <small class="error">Password is required.</small>
+        }
+
+        @if ((submitted() || f.password.touched) && f.password.errors?.['minlength']) {
+          <small class="error">Password must be at least 4 characters.</small>
+        }
+      </div>
+
+      <button class="btn btn-primary auth-btn" type="submit" [disabled]="submitting()">
+        {{ submitting() ? 'Logging in...' : 'Login' }}
+      </button>
+    </form>
+
+    <p class="auth-link">
+      Don’t have an account?
+      <a routerLink="/register">Register</a>
+    </p>
+  </div>
+</div>
