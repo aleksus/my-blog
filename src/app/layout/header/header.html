@@ -9,11 +9,6 @@
       <a routerLink="/posts" routerLinkActive="active">
         Posts
       </a>
-      @if (authService.isLoggedIn()) {
-      <a routerLink="/users" routerLinkActive="active">
-        Authors
-      </a>
-      }
 
       @if (authService.isLoggedIn()) {
       <span class="user-name">Hi, {{ authService.currentUser()?.name }}</span>
