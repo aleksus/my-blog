@@ -1,9 +1,8 @@
 import { Component, OnInit, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { User } from '../../../core/models/user.model';
+import { AuthService } from '../../../core/services/auth.service';
 import { PostService } from '../../../core/services/post.service';
-import { UserService } from '../../../core/services/user.service';
 
 @Component({
   selector: 'app-post-form',
@@ -15,9 +14,9 @@ import { UserService } from '../../../core/services/user.service';
 export class PostFormComponent implements OnInit {
   private fb = inject(FormBuilder);
   private postService = inject(PostService);
-  private userService = inject(UserService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  authService = inject(AuthService);
 
   isEditMode = signal(false);
   loading = signal(false);
@@ -25,17 +24,13 @@ export class PostFormComponent implements OnInit {
   submitted = signal(false);
   errorMessage = signal('');
   postId = signal<number | null>(null);
-  users = signal<User[]>([]);
 
   postForm = this.fb.nonNullable.group({
     title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(150)]],
     content: ['', [Validators.required, Validators.minLength(10)]],
-    userId: [0, [Validators.required, Validators.min(1)]],
   });
 
   ngOnInit(): void {
-    this.loadUsers();
-
     const id = this.route.snapshot.paramMap.get('id');
 
     if (id) {
@@ -43,21 +38,6 @@ export class PostFormComponent implements OnInit {
       this.postId.set(Number(id));
       this.loadPost(Number(id));
     }
-  }
-
-  loadUsers(): void {
-    this.loadingUsers.set(true);
-
-    this.userService.getAll().subscribe({
-      next: (data) => {
-        this.users.set(data);
-        this.loadingUsers.set(false);
-      },
-      error: () => {
-        this.errorMessage.set('Failed to load authors.');
-        this.loadingUsers.set(false);
-      },
-    });
   }
 
   loadPost(id: number): void {
@@ -69,7 +49,6 @@ export class PostFormComponent implements OnInit {
         this.postForm.patchValue({
           title: post.title,
           content: post.content,
-          userId: post.userId,
         });
         this.loading.set(false);
       },
@@ -89,7 +68,13 @@ export class PostFormComponent implements OnInit {
       return;
     }
 
-    const payload = this.postForm.getRawValue();
+    const { title, content } = this.postForm.getRawValue();
+
+    const payload = {
+      title,
+      content,
+      userId: this.authService.currentUser()!.id,
+    };
 
     if (this.isEditMode() && this.postId()) {
       this.postService.update(this.postId()!, payload).subscribe({

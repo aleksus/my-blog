@@ -43,32 +43,6 @@
           }
         </div>
 
-        <div class="form-group">
-          <label for="userId">Author</label>
-
-          <select id="userId" formControlName="userId">
-            <option [ngValue]="0" disabled>Select an author</option>
-
-            @for (user of users(); track user.id) {
-              <option [ngValue]="user.id">
-                {{ user.name }} ({{ user.email }})
-              </option>
-            }
-          </select>
-
-          @if (loadingUsers()) {
-            <small class="info-text">Loading authors...</small>
-          }
-
-          @if ((submitted() || f.userId.touched) && f.userId.errors?.['required']) {
-            <small class="error">Author is required.</small>
-          }
-
-          @if ((submitted() || f.userId.touched) && f.userId.errors?.['min']) {
-            <small class="error">Please select an author.</small>
-          }
-        </div>
-
         <div class="form-actions">
           <button type="submit" class="btn btn-primary">
             {{ isEditMode() ? 'Update Post' : 'Create Post' }}
