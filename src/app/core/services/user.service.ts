@@ -5,7 +5,7 @@ import { User, UserAuth, UserRegister } from '../models/user.model';
 import { API_ENDPOINTS } from '../constants/api.constants';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
   constructor(private http: HttpClient) {}
@@ -19,7 +19,7 @@ export class UserService {
   }
 
   authenticate(user: UserAuth): Observable<User> {
-    return this.http.post<User>(`${API_ENDPOINTS.users}`, user);
+    return this.http.post<User>(`${API_ENDPOINTS.users}/authenticate`, user);
   }
 
   create(user: UserRegister): Observable<User> {
