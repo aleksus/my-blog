@@ -3,54 +3,65 @@
     <h1>{{ isEditMode() ? 'Edit Post' : 'Create Post' }}</h1>
 
     @if (loading()) {
-      <div class="info">Loading post...</div>
+    <div class="info">Loading post...</div>
     } @else {
-      <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
 
-        @if (errorMessage()) {
-          <div class="error-box">
-            {{ errorMessage() }}
-          </div>
+      @if (errorMessage()) {
+      <div class="error-box">
+        {{ errorMessage() }}
+      </div>
+      }
+
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input id="title" type="text" formControlName="title" />
+
+        @if ((submitted() || f.title.touched) && f.title.errors?.['required']) {
+        <small class="error">Title is required.</small>
         }
 
-        <div class="form-group">
-          <label for="title">Title</label>
-          <input id="title" type="text" formControlName="title" />
+        @if ((submitted() || f.title.touched) && f.title.errors?.['minlength']) {
+        <small class="error">Title must be at least 3 characters.</small>
+        }
 
-          @if ((submitted() || f.title.touched) && f.title.errors?.['required']) {
-            <small class="error">Title is required.</small>
-          }
+        @if ((submitted() || f.title.touched) && f.title.errors?.['maxlength']) {
+        <small class="error">Title must be at most 150 characters.</small>
+        }
+      </div>
 
-          @if ((submitted() || f.title.touched) && f.title.errors?.['minlength']) {
-            <small class="error">Title must be at least 3 characters.</small>
-          }
+      <div class="form-group">
+        <label for="content">Content</label>
+        <textarea id="content" rows="10" formControlName="content"></textarea>
 
-          @if ((submitted() || f.title.touched) && f.title.errors?.['maxlength']) {
-            <small class="error">Title must be at most 150 characters.</small>
-          }
-        </div>
+        @if ((submitted() || f.content.touched) && f.content.errors?.['required']) {
+        <small class="error">Content is required.</small>
+        }
 
-        <div class="form-group">
-          <label for="content">Content</label>
-          <textarea id="content" rows="10" formControlName="content"></textarea>
+        @if ((submitted() || f.content.touched) && f.content.errors?.['minlength']) {
+        <small class="error">Content must be at least 10 characters.</small>
+        }
+      </div>
 
-          @if ((submitted() || f.content.touched) && f.content.errors?.['required']) {
-            <small class="error">Content is required.</small>
-          }
+      <div class="form-group">
+        <label for="image">Post Image</label>
+        <input id="image" type="file" accept="image/*" (change)="onFileSelected($event)" />
+      </div>
 
-          @if ((submitted() || f.content.touched) && f.content.errors?.['minlength']) {
-            <small class="error">Content must be at least 10 characters.</small>
-          }
-        </div>
+      @if (imagePreview()) {
+      <div class="image-preview">
+        <img [src]="imagePreview()" alt="Preview" />
+      </div>
+      }
 
-        <div class="form-actions">
-          <button type="submit" class="btn btn-primary">
-            {{ isEditMode() ? 'Update Post' : 'Create Post' }}
-          </button>
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">
+          {{ isEditMode() ? 'Update Post' : 'Create Post' }}
+        </button>
 
-          <a routerLink="/posts" class="btn btn-secondary">Cancel</a>
-        </div>
-      </form>
+        <a routerLink="/posts" class="btn btn-secondary">Cancel</a>
+      </div>
+    </form>
     }
   </div>
 </div>

@@ -3,6 +3,8 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { PostService } from '../../../core/services/post.service';
+import { UploadService } from '../../../core/services/upload.service';
+import { API_HOST } from '../../../core/constants/api.constants';
 
 @Component({
   selector: 'app-post-form',
@@ -14,6 +16,7 @@ import { PostService } from '../../../core/services/post.service';
 export class PostFormComponent implements OnInit {
   private fb = inject(FormBuilder);
   private postService = inject(PostService);
+  private uploadService = inject(UploadService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   authService = inject(AuthService);
@@ -25,9 +28,14 @@ export class PostFormComponent implements OnInit {
   errorMessage = signal('');
   postId = signal<number | null>(null);
 
+  selectedFile = signal<File | null>(null);
+  imagePreview = signal<string>('');
+  uploadingImage = signal(false);
+
   postForm = this.fb.nonNullable.group({
     title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(150)]],
     content: ['', [Validators.required, Validators.minLength(10)]],
+    imageUrl: [''],
   });
 
   ngOnInit(): void {
@@ -49,7 +57,9 @@ export class PostFormComponent implements OnInit {
         this.postForm.patchValue({
           title: post.title,
           content: post.content,
+          imageUrl: post.imageUrl ?? '',
         });
+        this.imagePreview.set(post.imageUrl ? `${API_HOST}${post.imageUrl}` : '');
         this.loading.set(false);
       },
       error: () => {
@@ -68,6 +78,28 @@ export class PostFormComponent implements OnInit {
       return;
     }
 
+    if (this.selectedFile()) {
+      this.uploadingImage.set(true);
+
+      this.uploadService.upload(this.selectedFile()!).subscribe({
+        next: (uploadResult) => {
+          this.uploadingImage.set(false);
+          this.postForm.patchValue({ imageUrl: uploadResult.url });
+          this.savePost();
+        },
+        error: () => {
+          this.uploadingImage.set(false);
+          this.errorMessage.set('Image upload failed.');
+        },
+      });
+
+      return;
+    }
+
+    this.savePost();
+  }
+
+  private savePost(): void {
     const { title, content } = this.postForm.getRawValue();
 
     const payload = {
@@ -87,6 +119,21 @@ export class PostFormComponent implements OnInit {
         error: () => this.errorMessage.set('Failed to create post.'),
       });
     }
+  }
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+
+    if (!file) return;
+
+    this.selectedFile.set(file);
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagePreview.set(reader.result as string);
+    };
+    reader.readAsDataURL(file);
   }
 
   get f() {

@@ -1,27 +1,30 @@
 <div class="page-container">
   @if (loading()) {
-    <div class="card">Loading post...</div>
+  <div class="card">Loading post...</div>
   } @else if (errorMessage()) {
-    <div class="card error-box">{{ errorMessage() }}</div>
+  <div class="card error-box">{{ errorMessage() }}</div>
   } @else if (post()) {
-    <div class="card post-details">
-      <h1>{{ post()!.title }}</h1>
+  <div class="card post-details">
+    @if (post()!.imageUrl) {
+    <img class="post-hero-image" [src]="'http://localhost:8080' + post()!.imageUrl" [alt]="post()!.title" />
+    }
+    <h1>{{ post()!.title }}</h1>
 
-      <p class="meta text-muted">
-        By {{ post()!.authorName || ('User #' + post()!.userId) }}
-      </p>
+    <p class="meta text-muted">
+      By {{ post()!.authorName || ('User #' + post()!.userId) }}
+    </p>
 
-      <div class="content">
-        {{ post()!.content }}
-      </div>
-
-      <div class="actions">
-        <a routerLink="/posts" class="btn btn-secondary">Back</a>
-        <a [routerLink]="['/posts/edit', post()!.id]" class="btn btn-primary">Edit</a>
-        <button class="btn btn-danger" (click)="onDelete()">Delete</button>
-      </div>      
+    <div class="content">
+      {{ post()!.content }}
     </div>
 
-    <app-comment-section [postId]="post()!.id!"></app-comment-section>
+    <div class="actions">
+      <a routerLink="/posts" class="btn btn-secondary">Back</a>
+      <a [routerLink]="['/posts/edit', post()!.id]" class="btn btn-primary">Edit</a>
+      <button class="btn btn-danger" (click)="onDelete()">Delete</button>
+    </div>
+  </div>
+
+  <app-comment-section [postId]="post()!.id!"></app-comment-section>
   }
 </div>
