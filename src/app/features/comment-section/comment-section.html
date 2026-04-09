@@ -52,9 +52,11 @@
           }
         </div>
 
+        @if (authService.isLoggedIn() && authService.currentUser()?.id === comment.userId) {
         <button class="btn btn-danger btn-small" (click)="onDelete(comment.id!)">
           Delete
         </button>
+        }
       </div>
 
       <p class="comment-content">{{ comment.content }}</p>

@@ -18,7 +18,7 @@ export class CommentSectionComponent implements OnChanges {
 
   private commentService = inject(CommentService);
   private fb = inject(FormBuilder);
-  private authService = inject(AuthService);
+  authService = inject(AuthService);
 
   comments = signal<Comment[]>([]);
   loading = signal(false);
