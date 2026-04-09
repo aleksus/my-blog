@@ -100,12 +100,13 @@ export class PostFormComponent implements OnInit {
   }
 
   private savePost(): void {
-    const { title, content } = this.postForm.getRawValue();
+    const { title, content, imageUrl } = this.postForm.getRawValue();
 
     const payload = {
       title,
       content,
       userId: this.authService.currentUser()!.id,
+      imageUrl
     };
 
     if (this.isEditMode() && this.postId()) {
