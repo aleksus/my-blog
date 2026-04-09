@@ -20,8 +20,10 @@
 
     <div class="actions">
       <a routerLink="/posts" class="btn btn-secondary">Back</a>
+      @if (authService.isLoggedIn() && authService.currentUser()?.id === post()!.userId) {
       <a [routerLink]="['/posts/edit', post()!.id]" class="btn btn-primary">Edit</a>
       <button class="btn btn-danger" (click)="onDelete()">Delete</button>
+      }
     </div>
   </div>
 

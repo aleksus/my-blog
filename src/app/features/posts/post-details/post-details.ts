@@ -1,8 +1,9 @@
-import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLink, Router } from '@angular/router';
-import { PostService } from '../../../core/services/post.service';
+import { Component, OnInit, inject, signal } from '@angular/core';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Post } from '../../../core/models/post.model';
+import { AuthService } from '../../../core/services/auth.service';
+import { PostService } from '../../../core/services/post.service';
 import { CommentSectionComponent } from '../../comment-section/comment-section';
 
 
@@ -17,6 +18,7 @@ export class PostDetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private postService = inject(PostService);
+  authService = inject(AuthService);
 
   post = signal<Post | null>(null);
   loading = signal(false);
