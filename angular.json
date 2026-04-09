@@ -6,7 +6,7 @@
   },
   "newProjectRoot": "projects",
   "projects": {
-    "web-sales": {
+    "my-blog": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -56,10 +56,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "web-sales:build:production"
+              "buildTarget": "my-blog:build:production"
             },
             "development": {
-              "buildTarget": "web-sales:build:development"
+              "buildTarget": "my-blog:build:development"
             }
           },
           "defaultConfiguration": "development"
