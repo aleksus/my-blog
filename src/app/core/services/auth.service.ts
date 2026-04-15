@@ -3,7 +3,7 @@ import { Injectable, computed, inject, signal } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { API_ENDPOINTS } from '../constants/api.constants';
-import { AuthResponse, LoginRequest, RegisterRequest } from '../models/user.model';
+import { AuthResponse, LoginRequest, RegisterRequest, User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -37,7 +37,7 @@ export class AuthService {
     return this.currentUserSignal()?.token ?? null;
   }
 
-  private setSession(user: AuthResponse): void {
+  setSession(user: AuthResponse ): void {
     localStorage.setItem('auth_user', JSON.stringify(user));
     this.currentUserSignal.set(user);
   }

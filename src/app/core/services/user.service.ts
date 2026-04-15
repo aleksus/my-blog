@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { API_ENDPOINTS } from '../constants/api.constants';
-import { AuthResponse, LoginRequest, RegisterRequest, User } from '../models/user.model';
+import { AuthResponse, ChangePassword, LoginRequest, RegisterRequest, User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root',
@@ -26,11 +26,15 @@ export class UserService {
     return this.http.post<User>(API_ENDPOINTS.users, user);
   }
 
-  update(id: number, user: User): Observable<User> {
-    return this.http.put<User>(`${API_ENDPOINTS.users}/${id}`, user);
+  update(id: number, user: User): Observable<AuthResponse> {
+    return this.http.put<AuthResponse>(`${API_ENDPOINTS.users}/${id}`, user);
   }
 
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${API_ENDPOINTS.users}/${id}`);
+  }
+
+  changePassword(userId: number, data: ChangePassword) {
+    return this.http.put(`${API_ENDPOINTS.users}/${userId}/password`, data);
   }
 }

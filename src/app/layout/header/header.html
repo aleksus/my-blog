@@ -11,7 +11,7 @@
       </a>
 
       @if (authService.isLoggedIn()) {
-      <span class="user-name">Hi, {{ authService.currentUser()?.name }}</span>
+      <button class="user-name btn btn-secondary" routerLink="/profile">Hi, {{ authService.currentUser()?.name }}</button>
       <button class="btn btn-secondary" (click)="logout()">Logout</button>
       } @else {
       <a routerLink="/login" class="btn btn-secondary">Login</a>
