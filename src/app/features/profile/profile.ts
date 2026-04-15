@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 
 import { AuthService } from '../../core/services/auth.service';
 import { UserService } from '../../core/services/user.service';
+import { passwordsMatchValidator } from '../../shared/validators/passwordsMatch.validator';
 
 @Component({
   selector: 'app-profile',
@@ -37,11 +38,14 @@ export class ProfileComponent implements OnInit {
     email: ['', [Validators.required, Validators.email]],
   });
 
-  passwordForm = this.fb.nonNullable.group({
-    currentPassword: ['', [Validators.required]],
-    newPassword: ['', [Validators.required, Validators.minLength(6)]],
-    confirmPassword: ['', [Validators.required]],
-  });
+  passwordForm = this.fb.nonNullable.group(
+    {
+      currentPassword: ['', [Validators.required]],
+      newPassword: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required]],
+    },
+    { validators: passwordsMatchValidator },
+  );
 
   ngOnInit(): void {
     if (!this.userId) {
