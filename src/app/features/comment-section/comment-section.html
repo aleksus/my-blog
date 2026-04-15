@@ -3,7 +3,7 @@
     <h2>Comments</h2>
     <span class="comment-count">{{ comments().length }}</span>
   </div>
-
+  @if (authService.isLoggedIn()){
   <div class="comment-form-box">
     <h3>Leave a comment</h3>
 
@@ -35,7 +35,7 @@
       </button>
     </form>
   </div>
-
+  }
   <div class="comment-list">
     @if (loading()) {
     <div class="card">Loading comments...</div>
