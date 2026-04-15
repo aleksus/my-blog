@@ -108,7 +108,7 @@ Here is a breif description of the data collection used in the applicaton
 - Angular
 - Typescript
 - RxJS
-- SpringBoot/REST API
+- SpringBoot/REST API using H2 Database
 - CSS
 
 ## 9. How to Run the Project
