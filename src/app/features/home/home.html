@@ -7,7 +7,9 @@
 
     <div class="hero-actions">
       <a routerLink="/posts" class="btn btn-primary">Browse Posts</a>
+      @if (!authService.isLoggedIn()){
       <a routerLink="/login" class="btn btn-secondary">Login</a>
+      }
     </div>
   </section>
 </div>
