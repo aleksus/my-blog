@@ -1,59 +1,129 @@
-# WebSales
+# MyBlog - Functional Guide
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.0.
+## 1. Application Purpose
 
-## Development server
+The goal of the application is to help users manage their blogs
 
-To start a local development server, run:
+## 2. User Roles
 
-```bash
-ng serve
-```
+#### Guest (Not Authenticated User)
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- Can view blogs
+- Can view details on blogs and comments
+- Can register or login
 
-## Code scaffolding
+#### Authenticated User
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- Can create new blogs
+- Can edit their own blogs
+- Can delete their own blogs
+- Can create comments
+- Can delete their comments
+- Can edit their account info
+- Can change their password
 
-```bash
-ng generate component component-name
-```
+## 3. Public Features
+- Home page
+- Posts page displaying all blogs with shortened text
+- Post details page showing the full blog post and comments
+- Login page
+- Register page
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## 4. Authenticated User Features
 
-```bash
-ng generate --help
-```
+- Create new blogs
+- Edit own blogs
+- Delete own blogs
+- Create new comments
+- Delte own comments
+- View own profile
+- Edit own profile
+- Change own password
 
-## Building
+## 5. Main Application Flow
 
-To build the project run:
+1. User opens the Home page
+2. User navigates to Posts
+3. User selects a blog post to read and opens Details Page
+4. User logs in or registers
+5. Authenticated user creates, updates or deletes their blog posts
+6. Authenticated user creates or deletes their blog post comments
+7. Posts appear in the blog post lists
+8. Comments appear in the comment section under each blog post
+9. Authenticated user can update his information or change password
+10. Images are shown as headers for each blog post if uploaded
 
-```bash
-ng build
-```
+## 6. Data Structure
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+Here is a breif description of the data collection used in the applicaton
 
-## Running unit tests
+##### Comment Object
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+- id
+- content
+- user
+- post
 
-```bash
-ng test
-```
+##### Post Object
 
-## Running end-to-end tests
+- id
+- title
+- content
+- user
+- imageUrl
 
-For end-to-end (e2e) testing, run:
+##### User Object
 
-```bash
-ng e2e
-```
+- id
+- name
+- email
+- password
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## 7. Project Architecture
 
-## Additional Resources
+- core/
+  - constants/
+  - guards/
+  - interceptors/
+  - models/
+  - services/
+- features/
+  - auth/
+  - comment-section/
+  - home/
+  - not-found/
+  - posts/
+  - profile/
+- layout/
+  - footer/
+  - header/
+- shared/
+  - components/
+  - directives/
+  - pipes/
+  - validators/
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## 8. Technologies Used
+
+- Angular
+- Typescript
+- RxJS
+- SpringBoot/REST API
+- CSS
+
+## 9. How to Run the Project
+
+1. Clone the Angular frontend repository:
+   `https://github.com/aleksus/my-blog.git`
+2. Clone the SpringBoot backend repository:
+   `https://github.com/aleksus/my-blog-backend.git`
+3. Download and setup Apache Maven and Java JDK (*or run it using IntelliJ IDEA*)
+
+4. Start the backend
+   `mvn spring-boot:run`
+5. Install frontend dependencies
+   ``npm install` ``
+6. Start the application
+   `ng serve`
+7. Open the application
+   `http://localhost:4200`
