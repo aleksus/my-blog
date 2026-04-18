@@ -122,7 +122,7 @@ Here is a breif description of the data collection used in the applicaton
 4. Start the backend
    `mvn spring-boot:run`
 5. Install frontend dependencies
-   ``npm install` ``
+   `npm install`
 6. Start the application
    `ng serve`
 7. Open the application
